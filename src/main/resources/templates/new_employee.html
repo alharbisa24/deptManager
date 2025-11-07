@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>add new employee</h1>
+    <form action="#" th:action="@{/employees/create_employee}" th:object="${employee}" method="post">
+        <input type="text" name="name" placeholder="Name" th:field="*{name}"/>
+        <p th:errors="*{name}"></p>
+        <br>
+       <select th:field="*{position}">
+        <option value="" disabled selected>Select Position</option>
+        <option value="SUPERVISIOR">SuperVisior</option>
+        <option value="MANAGER">Manager</option>
+        <option value="MEMBER">Member</option>
+        <option value="INTERN">Intern</option>
+       </select>
+       <p th:errors="*{position}"></p>
+
+        <br>
+        <input type="number" name="salary" placeholder="Salary" th:field="*{salary}"/>
+        <p th:errors="*{salary}"></p>
+
+<br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

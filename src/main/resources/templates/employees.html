@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Employees : </h1>
+
+    <a href="employees/show_new_employee">Add new</a>
+
+    <table style="border: 1px solid;padding:2rem;width: 100%; text-align: left;">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>EmployeeID</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="employee : ${employees}">
+            <td>1</td>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.employeeID}"></td>
+            <p th:if="${employee.salary < 2000}">Not too much</p>
+            <p th:unless="${employee.salary < 2000}">Not too much</p>
+            <td th:text=${employee.position}></td>
+            <td th:text=${employee.salary}></td>
+            <td>
+                <a th:href="@{/employees/show_update_employee/{id}(id=${employee.employeeID})}">Update</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

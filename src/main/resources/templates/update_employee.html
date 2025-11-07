@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Update employee</h1>
+    <form th:action="@{'/employees/update_employee/' + ${employee.employeeID}}" 
+    th:object="${employee}" method="post">
+            <input type="hidden" th:field="*{employeeID}" />
+        <input type="text" name="name" placeholder="Name" th:field="*{name}"/>
+        <br>
+       <select th:field="*{position}">
+        <option value="" disabled selected>Select Position</option>
+        <option value="SUPERVISIOR">SuperVisior</option>
+        <option value="MANAGER">Manager</option>
+        <option value="MEMBER">Member</option>
+        <option value="INTERN">Intern</option>
+       </select>
+        <br>
+        <input type="number" name="salary" placeholder="Salary" th:field="*{salary}"/>
+<br>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
