@@ -1,7 +1,7 @@
 package com.example.demo.models;
 
 public enum Position {
-    MANAGER,SUPERVISIOR,INTERN,MEMBER;
+    MANAGER,SUPERVISOR,INTERN,MEMBER;
 
 
 
@@ -9,8 +9,8 @@ public String toString() {
     switch(this){
         case MANAGER:
             return "Manager";
-        case SUPERVISIOR:
-            return "Supervisior";
+        case SUPERVISOR:
+            return "Supervisor";
         case INTERN:
             return "Intern";
         case MEMBER:
