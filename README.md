@@ -21,7 +21,7 @@ It allows administrators to create departments, assign employees, update informa
   - JWT (JSON Web Token) authentication to secure API endpoints.
 
 - **Pagination**
-  - All list endpoints support pagination and sorting parameters.
+  - All list endpoints support pagination.
 
 - **API Documentation**
   - Swagger UI available for easy API exploration and testing.
@@ -33,30 +33,6 @@ It allows administrators to create departments, assign employees, update informa
 
 ---
 
-## 🏗️ Project Structure
-
-department-employees-manager
-/
-│
-├── src/
-│ ├── main/
-│ │ ├── java/com/example/manager/
-│ │ │ ├── controller/ # REST Controllers
-│ │ │ ├── entity/ # Entities (Employee, Department)
-│ │ │ ├── repository/ # Spring Data JPA Repositories
-│ │ │ ├── service/ # Business Logic Layer
-│ │ │ └── DepartmentEmployeesManagerApplication.java
-│ │ └── resources/
-│ │ ├── application.properties
-│ │ └── data.sql # Optional sample data
-│ └── test/
-│
-├── pom.xml
-└── README.md
-
-
-
----
 
 ## ⚙️ Technologies Used
 
@@ -86,7 +62,7 @@ department-employees-manager
 | employeeID | BIGINT | Primary key |
 | name | VARCHAR | Employee name |
 | position | VARCHAR | Job title |
-| salary | DECIMAL | Monthly salary |
+| salary | INT | Mothly salary |
 | department_id | BIGINT | Foreign key → Department |
 
 ---
