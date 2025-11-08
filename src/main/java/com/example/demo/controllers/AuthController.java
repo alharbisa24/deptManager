@@ -1,10 +1,9 @@
 package com.example.demo.controllers;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.components.JwtUtil;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.RegisterDTO;
-import com.example.demo.models.Role;
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
 
@@ -44,10 +42,21 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> authenticateUser(@Valid @RequestBody LoginDTO loginDto, BindingResult result){
-        if(result.hasErrors()){
-            return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
-            
+    public ResponseEntity<Map<String, Object>> authenticateUser(@Valid @RequestBody LoginDTO loginDto, BindingResult result){
+       
+        if (result.hasErrors()) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(error -> {
+            errors.put(error.getField(), error.getDefaultMessage());
+        });
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "status", "error",
+                        "message", "Validation failed",
+                        "errors", errors
+                ));
+    
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -56,19 +65,40 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.generateToken(loginDto.getEmail());
 
-        return ResponseEntity.ok(Map.of("token", token));
+
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "message", "User login successfully !",
+            "data", Map.of("token", token)
+    )); 
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDTO signUpDto, BindingResult result){
+    public ResponseEntity<Map<String,Object>> registerUser(@Valid @RequestBody RegisterDTO signUpDto, BindingResult result){
 
-        if(result.hasErrors()){
-            return new ResponseEntity<>("Invalid registration data", HttpStatus.BAD_REQUEST);
-        }
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> {
+                errors.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of(
+                            "status", "error",
+                            "message", "Validation failed",
+                            "errors", errors
+                    ));
+        
+            }
 
-        // checking if email exists in database
         if(userRepository.existsByEmail(signUpDto.getEmail())){
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+            .badRequest()
+            .body(Map.of(
+                    "status", "error",
+                    "message", "Validation failed",
+                    "errors", Map.of("email", "Email is already in use !")
+            ));
         }
 
         User user = new User();
@@ -78,8 +108,11 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
-
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "message", "User registered successfully !",
+            "data", user
+    )); 
     }
 
 }

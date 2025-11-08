@@ -12,8 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "employees")
 public class Employee {
     @Id
@@ -35,60 +41,5 @@ public class Employee {
     @JsonBackReference
     public Department department;
 
-
-    public Employee(Long employeeID, String name, Position position, int salary, Department department) {
-        this.employeeID = employeeID;
-        this.name = name;
-        this.position = position;
-        this.salary = salary;
-        this.department = department;
-    }
-
-  
-
-    public Employee() {
-    }
-
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getEmployeeID() {
-        return this.employeeID;
-    }
-
-    public void setEmployeeID(Long employeeID) {
-        this.employeeID = employeeID;
-    }
-
-    public Position getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public int getSalary() {
-        return this.salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-    
-    
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
 
 }
